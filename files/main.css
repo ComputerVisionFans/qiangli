@@ -5,7 +5,7 @@ html {
 body { 
   font-family: helvetica, ariel, 'sans serif';
   color: #000;
-  background-color: f6f3ed; 
+  background-color: #ffffff; 
   text-align:left; /* for IE */
   margin-top: 30px; 
   margin-bottom: 30px;
@@ -18,7 +18,7 @@ body {
   max-width: 960px;
 }
 
-table{ background-color: f6f3ed; }
+table{ background-color: #ffffff; }
 
 a, a:link, a:visited {
   color: #009999; 
