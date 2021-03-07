@@ -1,7 +1,4 @@
-# Personal Website
-Website for my research and experimences.
 
-<!--
 ### Hi there 👋
 
 **QIANG** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
@@ -14,6 +11,6 @@ Here are some ideas to get you started:
 - 🤔 I’m looking for help with CV in Base detection or segmentation 
 - 📫 How to reach me: qiang.li@rwth-aachen.de 
 - ⚡ Fun fact: if you wanna "leetcode" with me, free feel to connect
--->
+
 
 [![Qiang's github stats](https://github-readme-stats.vercel.app/api?username=Johnny-liqiang&show_icons=true)](https://github.com/Johnny-liqiang/)
