@@ -4,7 +4,7 @@
 
 Here are some ideas to get you started:
 
-- 🔭 I’m currently working on Computer Vision Project on Zürich Startup PayLuft
+- 🔭 I’m currently working on Computer Vision Project on BMW
 - 🌱 I’m currently learning to be Full-Stack Engineer 
 - 👯 I’m looking to collaborate on ML/CV Science for Good Open Source projects 
 - 🤔 I’m looking for help with CV in Base detection or segmentation 
