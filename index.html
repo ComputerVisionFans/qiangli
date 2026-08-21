@@ -300,14 +300,16 @@
 
   /* ---------- responsive ---------- */
   @media (max-width:760px){
-    .hero{grid-template-columns:1fr; padding-top:44px;}
+    .topbar-inner{flex-direction:column; align-items:flex-start; gap:8px; padding:12px 20px;}
+    nav.timecodes{flex-wrap:wrap; overflow-x:visible; gap:6px 16px; width:100%;}
+    .hero{grid-template-columns:1fr; padding:24px 20px 4px; gap:22px;}
     .hero-visual{max-width:220px;}
     .mentor-grid{grid-template-columns:1fr;}
     .pub-card{grid-template-columns:1fr;}
     .pub-thumb{aspect-ratio:16/9;}
     .timeline::before{left:82px;}
-    .timeline li{grid-template-columns:56px 1fr; gap:34px;}
-    .timeline li::after{left:78px;}
+    .timeline li{grid-template-columns:64px 1fr; gap:36px;}
+    .timeline li::after{left:82px;}
     .honors-list li{grid-template-columns:56px 1fr;}
   }
 
@@ -750,7 +752,7 @@
         entries.forEach(e=>{
           if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); }
         });
-      }, {threshold:.12, rootMargin:'0px 0px -60px 0px'});
+      }, {threshold:0, rootMargin:'0px 0px -10% 0px'});
       revealEls.forEach(el=>io.observe(el));
     } else {
       revealEls.forEach(el=>el.classList.add('in-view'));
