@@ -1,412 +1,776 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="keywords" content="Qiang"> 
-<meta name="description" content="Academic homepage of Qiang Li">
-<link href="files/main.css" media="all" rel="stylesheet">
-<title>Qiang Li's Homepage</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="Qiang Li, Qiang, VLM, Vision Language Models, GenAI, Accenture, RWTH Aachen, ETH Zurich">
+<meta name="description" content="Academic homepage of Qiang Li — Associate Manager, GenAI & Enterprise Solutions at Accenture, working on vision-language models and video AI for pharmaceutical GenAI.">
+<title>Qiang Li — Homepage</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+<style>
+  :root{
+    --paper:#F6F7F3;
+    --paper-alt:#EEF0EA;
+    --ink:#15191C;
+    --ink-soft:#54595E;
+    --line:#D9DCD3;
+    --teal:#146B63;
+    --teal-deep:#0E4F49;
+    --teal-soft:#DEEEEA;
+    --amber:#D68A2C;
+    --amber-soft:#F7E6C6;
+    --white:#FFFFFF;
+    --radius:10px;
+    --maxw:1040px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--teal-soft); color:var(--teal-deep);}
+
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  /* faint paper texture */
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:-1;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(20,25,28,0.05) 1px, transparent 0);
+    background-size:26px 26px;
+    opacity:.55;
+    pointer-events:none;
+  }
+
+  /* ---------- topbar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    background:rgba(246,247,243,.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:var(--maxw); margin:0 auto; padding:14px 28px;
+  }
+  .brand{
+    font-family:'Fraunces',serif; font-weight:600; font-size:17px;
+    letter-spacing:.01em; text-decoration:none;
+    display:flex; align-items:baseline; gap:6px;
+  }
+  .brand .zh{font-size:12px; color:var(--ink-soft); font-weight:400;}
+  nav.timecodes{
+    display:flex; gap:22px; overflow-x:auto; scrollbar-width:none;
+  }
+  nav.timecodes::-webkit-scrollbar{display:none;}
+  nav.timecodes a{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    color:var(--ink-soft); text-decoration:none; white-space:nowrap;
+    padding:4px 0; border-bottom:2px solid transparent;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  nav.timecodes a .tc{color:var(--teal); margin-right:6px; opacity:.75;}
+  nav.timecodes a:hover, nav.timecodes a.active{
+    color:var(--ink); border-bottom-color:var(--teal);
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:var(--maxw); margin:0 auto; padding:64px 28px 40px;
+    display:grid; grid-template-columns:260px 1fr; gap:56px; align-items:center;
+  }
+  .hero-visual{position:relative;}
+  .frame{
+    position:relative; border:1px solid var(--line); border-radius:4px;
+    padding:10px; background:var(--white);
+    box-shadow:0 1px 2px rgba(20,25,28,.04);
+  }
+  .frame img{border-radius:2px; width:100%; height:auto;}
+  .sprockets{
+    position:absolute; top:0; bottom:0; width:10px;
+    display:flex; flex-direction:column; justify-content:space-evenly; align-items:center;
+  }
+  .sprockets.left{left:-16px;} .sprockets.right{right:-16px;}
+  .sprockets span{width:6px; height:6px; border-radius:1px; background:var(--line);}
+  .playhead-track{
+    position:relative; height:3px; margin-top:16px;
+    background:var(--line); border-radius:2px; overflow:hidden;
+  }
+  .playhead-fill{
+    position:absolute; inset:0; width:35%; background:var(--teal); border-radius:2px;
+  }
+  .playhead-dot{
+    position:absolute; top:50%; left:0; width:9px; height:9px; border-radius:50%;
+    background:var(--amber); transform:translate(-50%,-50%);
+    animation:scrub 5.5s ease-in-out infinite;
+    box-shadow:0 0 0 4px var(--amber-soft);
+  }
+  @keyframes scrub{
+    0%{left:0%;} 45%{left:100%;} 50%{left:100%;} 95%{left:0%;} 100%{left:0%;}
+  }
+  .frame-caption{
+    margin-top:10px; font-size:11px; color:var(--ink-soft); display:flex; justify-content:space-between;
+  }
+
+  .hero-copy .eyebrow{
+    font-size:12.5px; color:var(--teal-deep); letter-spacing:.06em; text-transform:uppercase;
+    margin:0 0 14px;
+  }
+  .hero-copy h1{
+    font-family:'Fraunces',serif; font-weight:600; font-size:clamp(30px,4.2vw,44px);
+    line-height:1.12; margin:0 0 18px; letter-spacing:-.01em;
+  }
+  .hero-copy .lede{
+    font-size:16px; color:var(--ink-soft); margin:0 0 4px; max-width:46ch;
+  }
+  .hero-copy .contact-line{
+    font-family:'IBM Plex Mono',monospace; font-size:13.5px; color:var(--ink);
+    margin:14px 0 20px;
+  }
+  .contact-line a{text-decoration:none; border-bottom:1px solid var(--line);}
+  .contact-line a:hover{border-color:var(--teal);}
+
+  .social-row{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px;}
+  .pill{
+    display:inline-flex; align-items:center; gap:7px;
+    padding:7px 13px; border:1px solid var(--line); border-radius:999px;
+    font-size:13px; text-decoration:none; color:var(--ink);
+    background:var(--white); transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  .pill i{font-size:13px; color:var(--teal);}
+  .pill:hover{transform:translateY(-2px); border-color:var(--teal); box-shadow:0 6px 14px rgba(20,25,28,.06);}
+
+  .cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--ink); color:var(--paper); text-decoration:none;
+    padding:11px 20px; border-radius:6px; font-size:14px; font-weight:500;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .cta:hover{background:var(--teal-deep); transform:translateY(-2px);}
+
+  /* ---------- section shell ---------- */
+  section.block{max-width:var(--maxw); margin:0 auto; padding:66px 28px;}
+  section.block + section.block{border-top:1px solid var(--line);}
+  .section-head{margin-bottom:34px;}
+  .section-head .eyebrow{
+    display:flex; align-items:center; gap:10px;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--teal);
+    letter-spacing:.05em; margin-bottom:10px;
+  }
+  .section-head .eyebrow::after{
+    content:""; flex:1; height:1px; background:var(--line);
+  }
+  .section-head h2{
+    font-family:'Fraunces',serif; font-weight:600; font-size:clamp(24px,3vw,32px);
+    margin:0; letter-spacing:-.01em;
+  }
+
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in-view{opacity:1; transform:translateY(0);}
+
+  /* ---------- about ---------- */
+  .about-text p{max-width:100ch; color:var(--ink-soft); margin:0 0 16px; font-size:15.5px;}
+  .about-text strong{color:var(--ink); font-weight:600;}
+  .about-text a{color:var(--teal-deep); text-decoration:none; border-bottom:1px solid var(--teal-soft);}
+  .about-text a:hover{border-color:var(--teal);}
+
+  /* ---------- news timeline ---------- */
+  .timeline{list-style:none; margin:0; padding:0; position:relative;}
+  .timeline::before{
+    content:""; position:absolute; left:82px; top:6px; bottom:6px; width:1px; background:var(--line);
+  }
+  .timeline li{
+    position:relative; display:grid; grid-template-columns:82px 1fr; gap:24px;
+    padding:16px 0; align-items:start;
+  }
+  .timeline li::after{
+    content:""; position:absolute; left:78px; top:22px; width:9px; height:9px;
+    border-radius:50%; background:var(--paper); border:2px solid var(--teal);
+  }
+  .timeline .date{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-soft); padding-top:3px; text-align:right;
+  }
+  .timeline .entry{font-size:15px; color:var(--ink-soft);}
+  .timeline .entry a{color:var(--teal-deep); text-decoration:none; border-bottom:1px solid var(--teal-soft);}
+  .timeline .entry a:hover{border-color:var(--teal);}
+  .badge{
+    display:inline-flex; align-items:center; gap:5px;
+    background:var(--amber-soft); color:#8A5A12; border-radius:999px;
+    padding:2px 10px; font-size:12px; font-weight:600; margin-left:2px;
+    text-decoration:none !important; border:none !important;
+  }
+  .badge:hover{background:var(--amber);}
+
+  /* ---------- research / mentors ---------- */
+  .mentor-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .mentor-card{
+    border:1px solid var(--line); border-radius:var(--radius); padding:20px;
+    background:var(--white); transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .mentor-card:hover{transform:translateY(-3px); box-shadow:0 10px 24px rgba(20,25,28,.06);}
+  .mentor-card .lab{font-size:12px; color:var(--teal); text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px;}
+  .mentor-card a{text-decoration:none; font-size:14.5px; font-weight:500;}
+  .mentor-card a:hover{color:var(--teal-deep);}
+
+  /* ---------- reviewing ---------- */
+  .venue-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  .venue{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px;
+    border:1px solid var(--line); border-radius:6px; padding:6px 10px;
+    background:var(--white); color:var(--ink-soft);
+  }
+  .venue b{color:var(--teal-deep);}
+  .subhead{font-size:12.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); margin:0 0 10px;}
+  .journal-list{list-style:none; margin:0 0 26px; padding:0; font-size:14.5px; color:var(--ink-soft);}
+  .journal-list li{padding:6px 0; border-bottom:1px dashed var(--line);}
+  .journal-list li:last-child{border-bottom:none;}
+  .cat-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .cat{
+    font-size:13px; background:var(--teal-soft); color:var(--teal-deep);
+    border-radius:999px; padding:6px 12px;
+  }
+
+  /* ---------- honors ---------- */
+  .honors-list{list-style:none; margin:0; padding:0;}
+  .honors-list li{
+    display:grid; grid-template-columns:70px 1fr; gap:20px;
+    padding:13px 0; border-bottom:1px solid var(--line); font-size:14.5px; color:var(--ink-soft);
+  }
+  .honors-list li:last-child{border-bottom:none;}
+  .honors-list .yr{font-family:'IBM Plex Mono',monospace; color:var(--teal); font-size:13px;}
+
+  /* ---------- publications ---------- */
+  .pub-card{
+    display:grid; grid-template-columns:220px 1fr; gap:26px;
+    padding:26px 0; border-bottom:1px solid var(--line);
+  }
+  .pub-card:first-child{padding-top:0;}
+  .pub-card:last-child{border-bottom:none; padding-bottom:0;}
+  .pub-thumb{
+    border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--white);
+    aspect-ratio:4/3;
+  }
+  .pub-thumb img{width:100%; height:100%; object-fit:cover; transition:transform .35s ease;}
+  .pub-card:hover .pub-thumb img{transform:scale(1.045);}
+  .pub-title{font-family:'Fraunces',serif; font-weight:600; font-size:18px; margin:0 0 6px; line-height:1.3;}
+  .pub-authors{font-size:13.5px; color:var(--ink-soft); margin:0 0 6px;}
+  .pub-authors strong{color:var(--ink); font-weight:600;}
+  .pub-venue{font-size:13px; color:var(--teal-deep); margin:0 0 10px;}
+  .pub-abstract{font-size:14px; color:var(--ink-soft); margin:0 0 14px; line-height:1.65;}
+  .pub-links{display:flex; flex-wrap:wrap; gap:14px;}
+  .pub-links a{
+    font-size:13px; color:var(--ink); text-decoration:none;
+    border-bottom:1px solid var(--line); padding-bottom:1px;
+    display:inline-flex; align-items:center; gap:5px;
+  }
+  .pub-links a:hover{color:var(--teal-deep); border-color:var(--teal);}
+  .pub-links a i{font-size:11px;}
+
+  /* ---------- notes / misc ---------- */
+  .notes-text{max-width:100ch; color:var(--ink-soft); font-size:15.5px;}
+  .notes-text em{color:var(--ink); font-style:normal; font-weight:500;}
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--line); padding:34px 28px 50px;
+    max-width:var(--maxw); margin:0 auto;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+  }
+  footer .mono{font-size:12px; color:var(--ink-soft);}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:760px){
+    .hero{grid-template-columns:1fr; padding-top:44px;}
+    .hero-visual{max-width:220px;}
+    .mentor-grid{grid-template-columns:1fr;}
+    .pub-card{grid-template-columns:1fr;}
+    .pub-thumb{aspect-ratio:16/9;}
+    .timeline::before{left:64px;}
+    .timeline li{grid-template-columns:64px 1fr; gap:16px;}
+    .timeline li::after{left:60px;}
+    .honors-list li{grid-template-columns:56px 1fr;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1; transform:none; transition:none;}
+    .playhead-dot{animation:none; left:35%;}
+    .pub-card:hover .pub-thumb img{transform:none;}
+  }
+</style>
 </head>
-	
+
 <body>
-	<table border="0" id="information" width="100%">
-		<tbody>
-			<tr>
-				<td >
-					<p align="center"><font face="Arial"><img border="0" src="imgs/IMG_7230.JPG" height="260"></font></p>
-				</td>
-				<td>
-					<font face="Arial" size="5"><b>&nbsp;Qiang Li <span lang="zh-cn">(利 强)</span></b></font>
-					<p><font face="Arial" style="font-size: 12pt;">&nbsp; M.Sc. Informatik </font></p>
-					<p><font face="Arial" style="font-size: 12pt;">&nbsp; RWTH Aachen University, Aachen, Germany</font></p>
-					<p><font face="Arial" style="font-size: 12pt;">&nbsp; Email: qiang.li@rwth-aachen.de</font></p>
-					&nbsp; <a href="files/CV_Lebenslauf_Customized (Qiang Li).pdf">CV</a> &bull; <a href="https://www.linkedin.com/in/jonaslovecomputervision/">LinkedIn</a> &bull; <a href="https://github.com/ComputerVisionFans">GitHub</a> &bull; <a href="https://scholar.google.de/citations?view_op=list_works&hl=de&hl=de&user=B3ebkOAAAAAJ">Scholar</a> &bull; <a href="https://x.com/Jonasisbest1">Twitter</a> &bull;  <a href="https://www.xiaohongshu.com/user/profile/5e18eae7000000000100a509">RED</a> &bull; <a href="https://medium.com/@jonasingermany">Blog</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
 
-	<p><b><font face="Times New Roman" size="5">
-		About</font></b></p>
-	
-	<table border="0" width="100%">
-		<tbody>
-			<tr>
-				<td style="border-style: none; border-width: medium;">
-					<p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;"><font face="Arial" style="font-size: 12pt; line-height: 2;">
-						Guten Tag! I am currently working as an Associate Manager at Accenture. Prior to joining Accenture, I served as an IDEA Research Grant Student in Prof. Dr. <a href="https://imsb.ethz.ch/people/person-detail.html?persid=139973"> Manfred Claassen </a> group at ETH Zürich, and I obtained my Master's degree in Informatik from RWTH Aachen University, bachelor's degree from HFUT. During my Bachelor's studies, I specialized in IoT and founded the HFUT Robocup Lab. I also gained industry experience as a computer vision working student at Siemens AG Aachen Gas Turbine Research Center during my Master’s studies.<br>
-					</font>
-					<br>
-					<font face="Arial" style="font-size: 12pt; line-height: 2;">My research interests primarily focus on object recognition and segmentation, the deployment of machine learning systems, model interpretability, multi-task and multimodal learning in industrial production.</font>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#home" class="brand">Qiang Li <span class="zh">利强</span></a>
+      <nav class="timecodes" id="nav">
+        <a href="#about" data-target="about"><span class="tc">00:01</span>About</a>
+        <a href="#news" data-target="news"><span class="tc">00:02</span>News</a>
+        <a href="#research" data-target="research"><span class="tc">00:03</span>Research</a>
+        <a href="#reviewing" data-target="reviewing"><span class="tc">00:04</span>Reviewing</a>
+        <a href="#honors" data-target="honors"><span class="tc">00:05</span>Honors</a>
+        <a href="#publications" data-target="publications"><span class="tc">00:06</span>Publications</a>
+        <a href="#notes" data-target="notes"><span class="tc">00:07</span>Notes</a>
+      </nav>
+    </div>
+  </header>
 
-	<p><b><font face="Times New Roman" size="5"><br>
-		 News</font></b></p>
-		<font face="Arial" style="font-size: 12pt; line-height: 2;">
-		
-        <ul class="news-list">
-<li>[June 2026]  Promoted to <strong>Associate Manager</strong>. Also 5 years Anniversary at Accenture! </li>
-			
-<li>[<strong>May 2026</strong>]  
-  The joint Roche & Accenture research white paper 
- "From Understanding to Engagement: Personalized pharmacy Video Clips via Vision Language Models (VLMs)", has been accepted as a Poster at ACL 2026! 🚀
-  <a href="https://aclanthology.org/2026.customnlp4u-1.3/" 
-     style="color: #b30000; background-color: #fff176; padding: 2px 8px; border-radius: 8px; font-weight: bold; text-decoration: none;">
-     🌟 Poster Paper
-  </a> 
-  
-</li>
-<li>[<strong>May 2026</strong>]  
-  The joint Roche & Accenture research white paper 
-  “Scaling Vision–Language Models for Pharmaceutical Long-Form Video Reasoning on Industrial GenAI Platform” 
-  has been accepted as a 
-  <a href="https://aclanthology.org/2026.alvr-main.7/" 
-     style="color: #b30000; background-color: #fff176; padding: 2px 8px; border-radius: 8px; font-weight: bold; text-decoration: none;">
-     🌟 Spotlight Paper
-  </a> 
-  at the ACL 2026 Advances in Language and Vision Research Workshop.
-</li>
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="home">
+    <div class="hero-visual">
+      <div class="frame">
+        <div class="sprockets left"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="sprockets right"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <img src="imgs/IMG_7230.JPG" alt="Portrait of Qiang Li">
+      </div>
+      <div class="playhead-track">
+        <div class="playhead-fill"></div>
+        <div class="playhead-dot"></div>
+      </div>
+      <div class="frame-caption mono"><span>2020 — RWTH / ETH Zürich</span><span>Current — Accenture</span></div>
+    </div>
 
-<li>[April 2026]  
-   🎉  One paper was accepted by the 
-  <a href="https://authors.elsevier.com/c/1n1V33qy-3m9Pw">
-    Journal of Computer Vision and Image Understanding
-  </a>.
-</li>
+    <div class="hero-copy">
+      <p class="eyebrow mono">Associate Manager, GenAI & Enterprise Solutions · Accenture, Düsseldorf</p>
+      <h1>Qiang Li (利 强)</h1>
+      <p class="lede">M.Sc. Informatik, RWTH Aachen University — building agentic and multimodal pipelines on industrial GenAI platform.</p>
+      <p class="contact-line"><a href="mailto:qiang.li@rwth-aachen.de">qiang.li@rwth-aachen.de</a></p>
 
+      <div class="social-row">
+        <a class="pill" href="files/CV_Lebenslauf_Customized (Qiang Li).pdf"><i class="fas fa-file-pdf"></i>CV</a>
+        <a class="pill" href="https://www.linkedin.com/in/jonaslovecomputervision/"><i class="fab fa-linkedin-in"></i>LinkedIn</a>
+        <a class="pill" href="https://github.com/ComputerVisionFans"><i class="fab fa-github"></i>GitHub</a>
+        <a class="pill" href="https://scholar.google.de/citations?view_op=list_works&hl=de&hl=de&user=B3ebkOAAAAAJ"><i class="fas fa-graduation-cap"></i>Scholar</a>
+        <a class="pill" href="https://x.com/Jonasisbest1"><i class="fab fa-twitter"></i>Twitter</a>
+        <a class="pill" href="https://www.xiaohongshu.com/user/profile/5e18eae7000000000100a509"><i class="fas fa-hashtag"></i>RED</a>
+        <a class="pill" href="https://medium.com/@jonasingermany"><i class="fab fa-medium-m"></i>Blog</a>
+      </div>
+    </div>
+  </section>
 
+  <!-- ============ ABOUT ============ -->
+  <section class="block reveal" id="about">
+    <div class="section-head"><p class="eyebrow">00:01 / About</p><h2>About</h2></div>
+    <div class="about-text">
+      <p>Guten Tag! I am currently working as a <strong>Tech Lead / Specialist at Accenture</strong>. Prior to joining Accenture, I served as an IDEA Research Grant Student in Prof. Dr. <a href="https://imsb.ethz.ch/people/person-detail.html?persid=139973">Manfred Claassen</a>'s group at ETH Zürich, and I obtained my Master's degree in Informatik from RWTH Aachen University and my Bachelor's degree from HFUT. During my Bachelor's studies I specialized in IoT and founded the HFUT RoboCup Lab. I also gained industry experience as a computer vision working student at the Siemens AG Aachen Gas Turbine Research Center during my Master's studies.</p>
+      <p>My research interests center on object recognition and segmentation, the deployment of machine learning systems, model interpretability, and multi-task &amp; multimodal learning in industrial production.</p>
+    </div>
+  </section>
 
+  <!-- ============ NEWS ============ -->
+  <section class="block reveal" id="news">
+    <div class="section-head"><p class="eyebrow">00:02 / News</p><h2>News</h2></div>
+    <ul class="timeline">
+      <li>
+        <span class="date mono">Jun 2026</span>
+        <span class="entry">Promoted to <strong>Associate Manager</strong>. Also, 5-year anniversary at Accenture!</span>
+      </li>
+      <li>
+        <span class="date mono">May 2026</span>
+        <span class="entry">The joint Roche &amp; Accenture research white paper "From Understanding to Engagement: Personalized pharmacy Video Clips via Vision Language Models (VLMs)" was accepted as a <a class="badge" href="https://aclanthology.org/2026.customnlp4u-1.3/">🌟 Poster Paper</a> at ACL 2026.</span>
+      </li>
+      <li>
+        <span class="date mono">May 2026</span>
+        <span class="entry">The joint Roche &amp; Accenture research white paper "Scaling Vision–Language Models for Pharmaceutical Long-Form Video Reasoning on Industrial GenAI Platform" was accepted as a <a class="badge" href="https://aclanthology.org/2026.alvr-main.7/">🌟 Spotlight Paper</a> at the ACL 2026 Advances in Language and Vision Research Workshop.</span>
+      </li>
+      <li>
+        <span class="date mono">Apr 2026</span>
+        <span class="entry">🎉 One paper accepted by the <a href="https://authors.elsevier.com/c/1n1V33qy-3m9Pw">Journal of Computer Vision and Image Understanding</a>.</span>
+      </li>
+      <li>
+        <span class="date mono">Feb 2025</span>
+        <span class="entry">H&amp;PS2025 <a href="https://sites.google.com/view/llmhallucination/home?authuser=0">paper</a> accepted at <a href="https://2025.naacl.org/">NAACL 2025</a>.</span>
+      </li>
+      <li>
+        <span class="date mono">Jan 2025</span>
+        <span class="entry">Roche RICI project: Roche launched its first GenAI Studio for Content Operations. <a href="https://www.linkedin.com/posts/puneet-srivastava-baa80843_onepharma-responsible-activity-7290725106501246977-rUgu?utm_source=share&utm_medium=member_desktop&rcm=ACoAACLCCF4BS9s8QAf34Ka7X0tw83S2XCmvoi0">Announcement</a>.</span>
+      </li>
+      <li>
+        <span class="date mono">Jun 2024</span>
+        <span class="entry">Promoted to <strong>Tech Lead / Specialist</strong>.</span>
+      </li>
+      <li>
+        <span class="date mono">Apr 2024</span>
+        <span class="entry"><a href="https://openreview.net/forum?id=4tbbxtGwou">XImageNet-12</a> benchmark accepted at the Synthetic Data for Computer Vision Workshop, <strong>CVPR 2024</strong>.</span>
+      </li>
+      <li>
+        <span class="date mono">May 2023</span>
+        <span class="entry">"Self-supervised Learning with Temporary Exact Solutions: Linear Projection" accepted at <a href="https://indin-2023.init-owl.de/">INDIN 2023</a>.</span>
+      </li>
+      <li>
+        <span class="date mono">Feb 2023</span>
+        <span class="entry">"Exploiting Interactivity and Heterogeneity for Sleep Stage Classification via Heterogeneous Graph Neural Network" accepted at <a href="https://ieeexplore.ieee.org/abstract/document/10095397">ICASSP 2023</a>.</span>
+      </li>
+      <li>
+        <span class="date mono">Jan 2023</span>
+        <span class="entry">Published a <a href="https://medium.com/twodigits/how-i-get-accepted-on-the-neurips2022-dmml-workshop-challenges-in-deploying-and-monitoring-ml-65249e857db9">blog post</a> on CI/CD for ML systems.</span>
+      </li>
+      <li>
+        <span class="date mono">Dec 2022</span>
+        <span class="entry">Published a <a href="https://medium.com/@jonasingermany/study-note-one-day-at-neurips-2022-synthetic-data-workshop-66175d8f7c13">blog post</a> on synthetic data generation.</span>
+      </li>
+      <li>
+        <span class="date mono">Nov 2022</span>
+        <span class="entry">Promoted to <strong>Senior Analyst</strong>.</span>
+      </li>
+      <li>
+        <span class="date mono">Oct 2022</span>
+        <span class="entry">"Continual Learning on Deployment Pipelines for Machine Learning Systems" accepted at the Challenges in Deploying and Monitoring ML Systems Workshop, <strong>NeurIPS 2022</strong>.</span>
+      </li>
+      <li>
+        <span class="date mono">Apr 2022</span>
+        <span class="entry">"Explainable AI: Object Recognition With Help From Background" accepted at the CSS Workshop, <strong>ICLR 2022</strong>.</span>
+      </li>
+      <li>
+        <span class="date mono">Mar 2021</span>
+        <span class="entry">"AttentionNet" accepted at the AI for Public Health Workshop, <strong>ICLR 2021</strong>.</span>
+      </li>
+      <li>
+        <span class="date mono">Aug 2020</span>
+        <span class="entry">Defended my master thesis, <strong>Cell Morphology Based Diagnosis of Cancer using CNNs</strong>, at ETH Zürich and RWTH.</span>
+      </li>
+    </ul>
+  </section>
 
-			
-			
-  <li>[Feb 2025]  H&PS2025 <a href="https://sites.google.com/view/llmhallucination/home?authuser=0">paper</a> was accepted at <a href="https://2025.naacl.org/">NAACL 2025</a>.</li>
-  <li>[Jan 2025]  Roche RICI project: Roche launched its first GenAI Studio for Content Operations. <a href="https://www.linkedin.com/posts/puneet-srivastava-baa80843_onepharma-responsible-activity-7290725106501246977-rUgu?utm_source=share&utm_medium=member_desktop&rcm=ACoAACLCCF4BS9s8QAf34Ka7X0tw83S2XCmvoi0">Announcement</a>.</li>
-  <li>[Jun 2024]  Promoted to <strong>Tech Lead / Specialist</strong>.</li>
-  <li>[Apr 2024]  <a href="https://openreview.net/forum?id=4tbbxtGwou">XImageNet-12</a> benchmark accepted at the Synthetic Data for Computer Vision Workshop, <strong>CVPR 2024</strong>.</li>
-  <li>[May 2023]  Self-supervised Learning with Temporary Exact Solutions: Linear Projection accepted at <a href="https://indin-2023.init-owl.de/">INDIN 2023</a>.</li>
-  <li>[Feb 2023]  Exploiting Interactivity and Heterogeneity for Sleep Stage Classification via Heterogeneous Graph Neural Network accepted at <a href="https://ieeexplore.ieee.org/abstract/document/10095397">ICASSP 2023</a>.</li>
-  <li>[Jan 2023]  Published a <a href="https://medium.com/twodigits/how-i-get-accepted-on-the-neurips2022-dmml-workshop-challenges-in-deploying-and-monitoring-ml-65249e857db9">blog post</a> on CI/CD for ML systems.</li>
-  <li>[Dec 2022]  Published a <a href="https://medium.com/@jonasingermany/study-note-one-day-at-neurips-2022-synthetic-data-workshop-66175d8f7c13">blog post</a> on synthetic data generation.</li>
-  <li>[Nov 2022]  Promoted to <strong>Senior Analyst</strong>.</li>
-  <li>[Oct 2022]  Continual Learning on Deployment Pipelines for Machine Learning Systems accepted at the Challenges in Deploying and Monitoring ML Systems Workshop, <strong>NeurIPS 2022</strong>.</li>
-  <li>[Apr 2022]  Explainable AI: Object Recognition With Help From Background accepted at the CSS Workshop, <strong>ICLR 2022</strong>.</li>
-  <li>[Mar 2021]  AttentionNet accepted at the AI for Public Health Workshop, <strong>ICLR 2021</strong>.</li>
-  <li>[Aug 2020]  Defended my master thesis, <strong>Cell Morphology Based Diagnosis of Cancer using CNNs</strong> at ETH Zürich and RWTH.</li>
-</ul>
-			
-		</font>
+  <!-- ============ RESEARCH EXPERIENCE ============ -->
+  <section class="block reveal" id="research">
+    <div class="section-head"><p class="eyebrow">00:03 / Research</p><h2>Research Experience</h2></div>
+    <div class="mentor-grid">
+      <div class="mentor-card">
+        <p class="lab">ETH Claassen Lab</p>
+        <a href="files/Recommendation_Letter_Qiang from ETH Zurich.pdf">Feedback from mentor at ETH Zürich →</a>
+      </div>
+      <div class="mentor-card">
+        <p class="lab">Sinovation Venture AI Institute</p>
+        <a href="files/Recommendation Letter from Sinovation Venture.pdf">Feedback from mentor at Sinovation →</a>
+      </div>
+      <div class="mentor-card">
+        <p class="lab">RWTH Computer Vision Group</p>
+        <a href="files/recommendation letter from RWTH Prof..pdf">Feedback from mentor at RWTH →</a>
+      </div>
+    </div>
+  </section>
 
-	<p><b><font face="Times New Roman" size="5"><br>
-	Research Experiences</font></b></p>
-	<table border="0"  width="100%">
-		<tbody>
-			<tr>
-				<td style="border-style: none; border-width: medium;">
-					<p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;"><font face="Arial" style="font-size: 12pt;">
-					<!--I am broadly interested in designing machine learning systems that can perceive the world as we human do and achieve "science for good" goal. In my exploration of this goal, I have studied and done research in medical image analysis, 3D reconstruction, unsupervised learning, video object perception. I have had the great fortune to participate in several interesting projects with inspiring and talented collaborators.<br>-->
-					[<a href="files/Recommendation_Letter_Qiang from ETH Zurich.pdf">Feedback from Mentor at <b>ETH Claassen Lab</b></a>]
-					<br>
-					
-					<br>
-					<!--I did an internship at Sinovation Venture AI Institute, where I was mainly responsible for NLP Chinese GPT model design based on the pre-trained Huggingface Transformer Model on industry scenarios.<br>-->
-					[<a href="files/Recommendation Letter from Sinovation Venture.pdf">Feedback from Mentor at <b>Sinovation Venture AI Institute</b></a>]
-					<br>
-					<br>	
-					<!--Before that, I finished a series of lectures, seminars and thesis: computer vision, advanced computer vision (1.7/ 1.0-5.0, the less the better), Schwerpunkte in machine learning (1.7/ 1.0-5.0, the less the better) under the supervision of Professor <a href="https://www.vision.rwth-aachen.de/person/1/">Bastian Leibe</a>.  Spent a summer internship with <a href="https://hci.rwth-aachen.de/borchers"> Prof. Dr. Jan Borchers </a> in <a href="https://hci.rwth-aachen.de/">HCI and Soft Robot Group</a> (1.3/ 1.0-5.0, the less the better).<br>-->
-					[<a href="/files/recommendation letter from RWTH Prof..pdf">Feedback from Mentor at <b>RWTH Computer Vision Group</b></a>]
-					<br>
-						
-					
-						
-				</font></p><font face="Arial" style="font-size: 11pt;"></font>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+  <!-- ============ REVIEWING ============ -->
+  <section class="block reveal" id="reviewing">
+    <div class="section-head"><p class="eyebrow">00:04 / Reviewing</p><h2>Conference &amp; Journal Reviewing</h2></div>
 
+    <p class="subhead">Conferences</p>
+    <div class="venue-row">
+      <span class="venue">CVPR 2024 <b>3+</b></span>
+      <span class="venue">NeurIPS 2024 <b>2+</b></span>
+      <span class="venue">ICASSP 2024 <b>9+</b></span>
+      <span class="venue">ICECET 2024 <b>2+</b></span>
+      <span class="venue">AVSS 2024 <b>4+</b></span>
+      <span class="venue">ICML 2025 <b>4+</b></span>
+      <span class="venue">ICASSP 2025 <b>4+</b></span>
+      <span class="venue">IJCNN 2025 <b>4+</b></span>
+      <span class="venue">ACL 2025 <b>3+</b></span>
+      <span class="venue">CVPR 2025 <b>4+</b></span>
+      <span class="venue">NeurIPS DB Track 2025 <b>3+</b></span>
+      <span class="venue">AAAI 2026 <b>6+</b></span>
+      <span class="venue">ACL ARR 2025 <b>2+</b></span>
+      <span class="venue">ACL ARR 2026 <b>4+</b></span>
+      <span class="venue">EMNLP Industry Track 2026 <b>4+</b></span>
+      <span class="venue">EMNLP Workshop Track 2026 <b>2+</b></span>
+    </div>
 
- 	<p><b><font face="Times New Roman" size="5"><br>
-		Conference & Journal Reviewer Contribution </font></b></p>
-		<font face="Arial" style="font-size: 12pt; line-height: 2;">
-			<ul>
-				<li> Conference：CVPR 2024 <strong>(3+)</strong>, NeurIPS 2024 <strong>(2+)</strong>, ICASSP 2024 <strong>(9+)</strong>, ICECET 2024 <strong>(2+)</strong>, AVSS 2024 <strong>(4+)</strong>, ICML 2025 <strong>(4+)</strong>, ICASSP 2025 <strong>(4+)</strong>, IJCNN 2025 <strong>(4+)</strong>, ACL 2025 <strong>(3+)</strong>, CVPR 2025 <strong>(4+)</strong>, NeurIPS DB Track 2025 <strong>(3+)</strong>, AAAI 2026 <strong>(6+)</strong> , ACL ARR 2025 <strong>(2+)</strong>, ACL ARR 2026 <strong>(4+)</strong>, EMNLP Industry Track 2026 <strong>(4+)</strong>, EMNLP Workshop Track 2026 <strong>(2+)</strong></li>
-				<li> Journal：IEEE Open Journal of Signal Processing，2024 <strong>(1+)</strong> </li>
-				<li> Journal：IEEE Transactions on Circuits and Systems for Video Technology，2024 <strong>(1+)</strong> </li>
-				<li> Review Categories： Computational imaging systems，Machine learning for image and video processing，Pattern recognition and classification，Explainable and interpretable machine learning， Robust and trustworthy machine learning， Self-supervised and semi-supervised learning </li>
-			</ul>
-		</font>
+    <p class="subhead">Journals</p>
+    <ul class="journal-list">
+      <li>IEEE Open Journal of Signal Processing, 2024 <span class="mono">(1+)</span></li>
+      <li>IEEE Transactions on Circuits and Systems for Video Technology, 2024 <span class="mono">(1+)</span></li>
+    </ul>
 
+    <p class="subhead">Review categories</p>
+    <div class="cat-row">
+      <span class="cat">Computational imaging systems</span>
+      <span class="cat">ML for image &amp; video processing</span>
+      <span class="cat">Pattern recognition &amp; classification</span>
+      <span class="cat">Explainable &amp; interpretable ML</span>
+      <span class="cat">Robust &amp; trustworthy ML</span>
+      <span class="cat">Self-/semi-supervised learning</span>
+    </div>
+  </section>
 
+  <!-- ============ HONORS ============ -->
+  <section class="block reveal" id="honors">
+    <div class="section-head"><p class="eyebrow">00:05 / Honors</p><h2>Honors &amp; Awards</h2></div>
+    <ul class="honors-list">
+      <li><span class="yr mono">2026</span><span>The Certified Reinvention with Agentic AI Learning Program by Accenture and Stanford HAI.</span></li>
+      <li><span class="yr mono">2025</span><span>The Certified AI-Empowered SAFe® 6 Product Owner / Product Manager — scored 98/100%.</span></li>
+      <li><span class="yr mono">2023</span><span>The Accenture Trained Architecture Foundation (TAF) Program, Certified TTA.</span></li>
+      <li><span class="yr mono">2020</span><span>The RWTH Stipend in IDEA League Research Grant, ETH Zürich.</span></li>
+      <li><span class="yr mono">2020</span><span>DeeCamp 2020 by Sinovation Ventures and UNDP — Best Team Leader prize.</span></li>
+      <li><span class="yr mono">2020</span><span>DeeCamp 2020 by Sinovation Ventures and UNDP — Excellent Performance Team prize.</span></li>
+      <li><span class="yr mono">2019</span><span>The Siemens Statistic / Six Sigma training, Yellow Belt Certification.</span></li>
+      <li><span class="yr mono">2018</span><span>The Europe BEST Engineering Competition — 2nd Prize, Europe region.</span></li>
+      <li><span class="yr mono">2017</span><span>The Connected Campus Idea Competition (CCIC) — Top 7 in Berlin.</span></li>
+    </ul>
+  </section>
 
+  <!-- ============ PUBLICATIONS ============ -->
+  <section class="block reveal" id="publications">
+    <div class="section-head"><p class="eyebrow">00:06 / Publications</p><h2>Projects &amp; Publications</h2></div>
 
-	
-	<p><b><font face="Times New Roman" size="5"><br>
-		Honors and Awards</font></b></p>
-		<font face="Arial" style="font-size: 12pt; line-height: 2;">
-			<ul>
-				<li>The Certified Reinvention with Agentic AI Learning Program by Accenture and Stanford HAI, 2026.</li>
-				<li>The Certified AI-Empowered SAFe® 6 Product Owner / Product Manager, Scored 98/100%, 2025.</li>
-				<li>The Accenture Trained Architecture Foundation (TAF) Program, Certified TTA, 2023.</li>
-				<li>The RWTH Stipend in IDEA League Research Grant, ETH Zürich, 2020.</li>
-				<li>The DeeCamp2020 by Sinovation Ventures and UNDP, Best Team Leader prize, 2020.</li>
-				<li>The DeeCamp2020 by Sinovation Ventures and UNDP, Excellent Performance Team prize, 2020.</li>
-				<li>The Siemens Statistic/Six Sigma training, Yellow Belt Certiﬁcation, 2019.</li>
-				<li>The Europe BEST Engineering Competition, 2nd Prize Europe region, 2018.</li>
-				<li>The Connected Campus Idea Competition (CCIC), Top 7 in Berlin, 2017.</li>
-				
-			</ul>
-		</font>
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="files/Architect_Video_clips.png" alt="ACL 2026 CustomNLP poster paper diagram"></div>
+      <div>
+        <h3 class="pub-title">From Understanding to Engagement: Personalized Pharmacy Video Clips via Vision Language Models (VLMs)</h3>
+        <p class="pub-authors">Suyash Mishra, <strong>Qiang Li</strong>, Anubhav Girdhar, Srikanth Patil</p>
+        <p class="pub-venue">ACL 2026 · Workshop on Customized and Personalized NLP (CustomNLP4U) · <span class="badge">Poster Paper</span></p>
+        <p class="pub-abstract">A domain-adapted video-to-video clip generation framework combining Audio- and Vision-Language Models to produce highlight clips: a reproducible Cut &amp; Merge algorithm with fade transitions and timestamp normalization, a role-based personalization mechanism for marketing/training/regulatory outputs, and a cost-efficient end-to-end pipeline. Evaluated on Video-MME and a proprietary set of 16,159 pharmacy videos across 14 disease areas, showing 3–4× speedup and 4× cost reduction over VLM baselines such as Gemini 2.5 Pro.</p>
+        <div class="pub-links">
+          <a href="https://aclanthology.org/2026.customnlp4u-1.3/"><i class="fas fa-file-alt"></i>Paper</a>
+          <a href="https://customnlp4u.github.io/"><i class="fas fa-globe"></i>Conference</a>
+          <a href="https://arxiv.org/pdf/2601.05059"><i class="fas fa-scroll"></i>arXiv</a>
+        </div>
+      </div>
+    </div>
 
-	
-	<p><b><font face="Times New Roman" size="5"><br>
-		Projects and Publications</font></b></p>
-	<table width="100%">
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="files/Architect_Video_Audio.jpg" alt="ACL 2026 ALVR spotlight paper diagram"></div>
+      <div>
+        <h3 class="pub-title">Scaling Vision–Language Models for Pharmaceutical Long-Form Video Reasoning on Industrial GenAI Platform</h3>
+        <p class="pub-authors">Suyash Mishra, <strong>Qiang Li</strong>, Srikanth Patil, Satyanarayan Pati, Baddu Narendra</p>
+        <p class="pub-venue">ACL 2026 · Workshop on Advances in Language and Vision Research (ALVR) · <span class="badge">🌟 Spotlight Paper</span></p>
+        <p class="pub-abstract">An industrial GenAI framework processing 200,000+ PDFs, 25,326 videos across eight formats, and 888 multilingual audio files in 20+ languages. Contributions: a large-scale architecture for multimodal reasoning in pharma; empirical analysis of 40+ VLMs on Video-MME, MMBench, and a proprietary 25,326-video set across 14 disease areas; and findings on multimodality, attention trade-offs, temporal reasoning limits, and video-splitting under GPU constraints.</p>
+        <div class="pub-links">
+          <a href="https://aclanthology.org/2026.alvr-main.7/"><i class="fas fa-file-alt"></i>Paper</a>
+          <a href="https://2026.aclweb.org/program/"><i class="fas fa-globe"></i>Conference</a>
+          <a href="https://openreview.net/group?id=aclweb.org/ACL/2026/Workshop/ALVR#tab-accept-spotlight"><i class="fas fa-star"></i>Spotlight list</a>
+        </div>
+      </div>
+    </div>
 
-     <!-- ACL 2026 -->
-		<tbody><tr>
-		<td width="30%" valign="middle"><p><img src="./files/Architect_Video_clips.png" width="280" alt="acl2026" style="border-style: none" align="top"></p></td>
-		<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-			<strong>From Understanding to Engagement: Personalized pharmacy Video Clips via Vision Language Models (VLMs) </strong><br>
-			 Suyash Mishra, <strong>Qiang Li</strong>,  Anubhav Girdhar, Srikanth Patil<br>
-			Accepted by <em> <strong> The 64th Annual Meeting of the Association for Computational Linguistics </strong>  (<strong>ACL'26</strong>), ACL 2026 Workshop CustomNLP  <a 
-     style="color: #b30000; background-color: #fff176; padding: 2px 8px; border-radius: 8px; font-weight: bold; text-decoration: none;">
-     Poster Paper
-  </a> , 2026</em>.<br>
-			In this work, we introduce a domain-adapted Video-to-Video Clip Generation framework that integrates Audio-Language Models (ALMs) and Vision Language Models (VLMs) to produce highlight clips. Our contributions are threefold: (i) a reproducible Cut & Merge algorithm with fade-in/out and timestamp normalization, ensuring smooth transitions and audio/visual alignment; (ii) a personalization mechanism based on role definition and prompt injection for tailored outputs (marketing, training, regulatory); (iii) a cost-efficient e2e pipeline strategy balancing ALM/VLM-enhanced processing. Evaluations on Video-MME benchmark (900) and our proprietary dataset of 16,159 pharmacy videos across 14 disease areas demonstrate 3–4× speedup, 4× cost reduction, and competitive clip quality. Beyond efficiency gains, we also report our methods improved clip coherence scores (0.348) and informativeness scores (0.721) over state-of-the-art VLM baselines (e.g., Gemini 2.5 Pro).
-			<b> <a href="https://aclanthology.org/2026.customnlp4u-1.3/"> <font color="##808080">Paper</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://customnlp4u.github.io/"><font color="#808080">Conference Website</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://arxiv.org/pdf/2601.05059"><font color="#808080"> Arxiv</font></a></b>&nbsp;&nbsp;&nbsp;
-			</p></td></tr>
-		</tbody>
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="files/NAACL2025Profil.png" alt="NAACL 2025 paper diagram"></div>
+      <div>
+        <h3 class="pub-title">How LLMs React to Industrial Spatio-Temporal Data? Assessing Hallucination with a Novel Traffic Incident Benchmark Dataset</h3>
+        <p class="pub-authors"><strong>Qiang Li</strong>, Mingkun Tan, Xun Zhao, Dan Zhang, Daoan Zhang, Shengzhao Lei, Anderson S Chu, Lujun Li, Porawit Kamnoedboon</p>
+        <p class="pub-venue">NAACL 2025 · Industry Track</p>
+        <p class="pub-abstract">A cross-lingual benchmark of nearly 99,869 real traffic incident records from Vienna (2013–2023) assessing LLM robustness across spatial and temporal domains. Explores three hypotheses — sentence indexing, date-to-text conversion, and German-to-English translation — and incorporates RAG to further examine hallucination in both domains.</p>
+        <div class="pub-links">
+          <a href="https://aclanthology.org/2025.naacl-industry.4/"><i class="fas fa-file-alt"></i>Paper</a>
+          <a href="https://github.com/ComputerVisionFans/LLM-Hallucination-Traffic-Incidents-Dataset"><i class="fas fa-code"></i>Code</a>
+          <a href="https://2025.naacl.org/"><i class="fas fa-globe"></i>Conference</a>
+          <a href="https://sites.google.com/view/llmhallucination/home?authuser=0"><i class="fas fa-database"></i>Dataset</a>
+        </div>
+      </div>
+    </div>
 
-     <!-- ACL 2026 -->
-		<tbody><tr>
-		<td width="30%" valign="middle"><p><img src="./files/Architect_Video_Audio.jpg" width="280" alt="acl2026" style="border-style: none" align="top"></p></td>
-		<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-			<strong>Scaling Vision–Language Models for Pharmaceutical Long-Form Video Reasoning on Industrial GenAI Platform</strong><br>
-			 Suyash Mishra, <strong>Qiang Li</strong>, Srikanth Patil, Satyanarayan Pati, Baddu Narendra<br>
-			Accepted by <em> <strong> The 64th Annual Meeting of the Association for Computational Linguistics </strong>  (<strong>ACL'26</strong>), Workshop on Advances in Language and Vision Research (ALVR),   <a 
-     style="color: #b30000; background-color: #fff176; padding: 2px 8px; border-radius: 8px; font-weight: bold; text-decoration: none;">
-     🌟 Spotlight Paper
-  </a> , 2026</em>.<br>
-			In this work, we present an industrial GenAI framework that processes over 200,000 PDFs, 25,326 videos across eight formats (e.g., MP4, M4V, etc.), and 888 multilingual audio files in more than 20 languages. Our study makes three contributions: (i) an industrial large-scale architecture for multimodal reasoning in pharmaceutical domains; (ii) empirical analysis of over 40 VLMs on two leading benchmarks (Video-MME and MMBench) and proprietary dataset of 25,326 videos across 14 disease areas; and (iii) four findings relevant to long-form video reasoning: the role of multimodality, attention mechanism trade-offs, temporal reasoning limits, and challenges of video splitting under GPU constraints. 
-			<b> <a href="https://aclanthology.org/2026.alvr-main.7/"> <font color="##808080">Paper</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://2026.aclweb.org/program/"><font color="#808080">Conference Website</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://openreview.net/group?id=aclweb.org/ACL/2026/Workshop/ALVR#tab-accept-spotlight"><font color="#808080">Accept Spotlight Lists (1/6) </font></a></b>&nbsp;&nbsp;&nbsp;
-			</p></td></tr>
-		</tbody>
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="imgs/flowchart2 (1).png" alt="XImageNet-12 flowchart"></div>
+      <div>
+        <h3 class="pub-title">XIMAGENET-12: An Explainable Visual Benchmark Dataset for Model Robustness Evaluation</h3>
+        <p class="pub-authors"><strong>Qiang Li</strong>, Dan Zhang, Shengzhao Lei, Xun Zhao, Porawit Kamnoedboon, WeiWei Li, Junhao Dong, Shuyan Li</p>
+        <p class="pub-venue">CVPR 2024 · Synthetic Data for Computer Vision Workshop · Full paper</p>
+        <p class="pub-abstract">An explainable visual dataset of 200K+ images with 15,410 manual semantic annotations across 12 ImageNet categories representing everyday objects. Incorporates six real-world scenarios (overexposure, blurring, color shifts, etc.) and a quantitative robustness criterion, with particular attention to background influence.</p>
+        <div class="pub-links">
+          <a href="https://openreview.net/forum?id=4tbbxtGwou"><i class="fas fa-file-alt"></i>Paper</a>
+          <a href="https://github.com/ComputerVisionFans/XIMAGENET-12"><i class="fas fa-code"></i>Code</a>
+          <a href="https://syndata4cv.github.io/"><i class="fas fa-globe"></i>Conference</a>
+          <a href="https://www.kaggle.com/datasets/qianglijonas/explainable-ai-imagenet-12#"><i class="fas fa-database"></i>Dataset (126+)</a>
+        </div>
+      </div>
+    </div>
 
-			
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="imgs/linear%20projection-Page-2.drawio%20(1).png" alt="Linear projection self-supervised learning diagram"></div>
+      <div>
+        <h3 class="pub-title">Self-Supervised Learning with Temporary Exact Solutions: Linear Projection</h3>
+        <p class="pub-authors">Evrim Ozmermer, <strong>Qiang Li</strong></p>
+        <p class="pub-venue">INDIN 2023 · IEEE 21st Int'l Conference on Industrial Informatics · Full paper</p>
+        <p class="pub-abstract">A self-supervised training method for visual transformers that learns meaningful image/video representations without large labeled sets, based on exact solutions of generated representations. The learned features fine-tune effectively on industrial downstream tasks.</p>
+        <div class="pub-links">
+          <a href="https://ieeexplore.ieee.org/abstract/document/10217918"><i class="fas fa-file-alt"></i>Paper</a>
+          <a href="https://github.com/rootvisionai/solo-learn"><i class="fas fa-code"></i>Code</a>
+          <a href="https://2023.ieee-indin.org/keynotes.php"><i class="fas fa-globe"></i>Conference</a>
+        </div>
+      </div>
+    </div>
 
-		<!-- NAACL 2025 -->
-		<tbody><tr>
-		<td width="30%" valign="middle"><p><img src="./files/NAACL2025Profil.png" width="280" alt="naacl2025" style="border-style: none" align="top"></p></td>
-		<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-			<strong>How LLMs React to Industrial Spatio-Temporal Data? Assessing Hallucination with a Novel Traffic Incident Benchmark Dataset</strong><br>
-			<strong>Qiang Li</strong>, Mingkun Tan, Xun Zhao, Dan Zhang, Daoan Zhang, Shengzhao Lei, Anderson S Chu, Lujun Li, Porawit Kamnoedboon<br>
-			Accepted by <em> <strong> 2025 Annual Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics </strong>  (<strong>NAACL'25</strong>), Full paper, 2025</em>.<br>
-			This study, originating from a real world industrial GenAI application, introduces a novel cross-lingual benchmark dataset comprising nearly 99,869 real traffic incident records from Vienna (2013-2023) to assess the robustness of state-of-the-art LLMs in the spatial and temporal domains for traffic incident classification. We then explored three hypotheses — sentence indexing, date-to-text conversion, and German-to-English translation — and incorporated Retrieval Augmented Generation (RAG) to further examine LLM hallucinations in both spatial and temporal domains. 
-			<b> <a href="https://aclanthology.org/2025.naacl-industry.4/"> <font color="##808080">Paper</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b> <a href="https://github.com/ComputerVisionFans/LLM-Hallucination-Traffic-Incidents-Dataset"> <font color="##808080">Code</font></a></b>&nbsp;&nbsp;&nbsp;	
-			<b><a href="https://2025.naacl.org/"><font color="#808080">Conference Website</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://sites.google.com/view/llmhallucination/home?authuser=0"><font color="#808080">Dataset </font></a></b>&nbsp;&nbsp;&nbsp;
-			</p></td></tr>
-		</tbody>
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="files/FE11E312-9E98-4137-9033-58A7F9356150.jpeg" alt="SleepHGNN graph diagram"></div>
+      <div>
+        <h3 class="pub-title">Exploiting Interactivity and Heterogeneity for Sleep Stage Classification via Heterogeneous Graph Neural Network</h3>
+        <p class="pub-authors">Ziyu Jia, Youfang Lin, Yuhan Zhou, Xiyang Cai, Peng Zheng, <strong>Qiang Li</strong>, Jing Wang</p>
+        <p class="pub-venue">ICASSP 2023 · Full paper</p>
+        <p class="pub-abstract">SleepHGNN, a deep model for sleep-stage classification using a Heterogeneous Graph Transformer to capture interactivity and heterogeneity across multimodal signals — the first attempt to apply heterogeneous graph neural networks to this task, with a graph-level classification framework generalizable to domains like protein and molecular graph classification.</p>
+        <div class="pub-links">
+          <a href="https://ieeexplore.ieee.org/document/10095397"><i class="fas fa-file-alt"></i>Paper</a>
+          <a href="https://github.com/zhouyh310/SleepHGNN"><i class="fas fa-code"></i>Code</a>
+          <a href="https://2023.ieeeicassp.org/"><i class="fas fa-globe"></i>Conference</a>
+        </div>
+      </div>
+    </div>
 
-		<!-- CVPRw 2024 -->
-		<tbody><tr>
-		<td width="30%" valign="middle"><p><img src="./imgs/flowchart2 (1).png" width="280" alt="cvprw" style="border-style: none" align="top"></p></td>
-		<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-			<strong>XIMAGENET-12: An Explainable Visual Benchmark Dataset for Model Robustness Evaluation</strong><br>
-			<strong>Qiang Li</strong>, Dan Zhang, Shengzhao Lei, Xun Zhao, Porawit Kamnoedboon, WeiWei Li,  Junhao Dong,  Shuyan Li <br>
-			Accepted by <em> <strong>Synthetic Data for Computer Vision Workshop</strong> @ IEEE (<strong>CVPR'24</strong>), Full paper, 2024</em>.<br>
-			In this paper, we propose an explainable visual dataset, XIMAGENET-12, to evaluate the robustness of visual models. XIMAGENET-12 consists of over 200K images with 15,410 manual semantic annotations. Specifically, we deliberately selected 12 categories from ImageNet, representing objects commonly encountered in practical life. To simulate real-world situations, we incorporated six diverse scenarios, such as overexposure, blurring, and color changes, etc. We further develop a quantitative criterion for robustness assessment, allowing for a nuanced understanding of how visual models perform under varying conditions, notably in relation to the background. <br>
-			<b> <a href="https://openreview.net/forum?id=4tbbxtGwou"> <font color="##808080">Paper</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b> <a href="https://github.com/ComputerVisionFans/XIMAGENET-12"> <font color="##808080">Code</font></a></b>&nbsp;&nbsp;&nbsp;	
-			<b><a href="https://syndata4cv.github.io/"><font color="#808080">Conference Website</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://www.kaggle.com/datasets/qianglijonas/explainable-ai-imagenet-12#"><font color="#808080">Dataset Download (126+ Download!) </font></a></b>&nbsp;&nbsp;&nbsp;
-			</p></td></tr>
-		</tbody>
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="imgs/deployment pipeline on NIPS2022.jpg" alt="CI/CD deployment pipeline diagram"></div>
+      <div>
+        <h3 class="pub-title">Continual Learning on Deployment Pipelines for Machine Learning Systems</h3>
+        <p class="pub-authors"><strong>Qiang Li</strong>, Chongyu Zhang</p>
+        <p class="pub-venue">NeurIPS 2022 · DMML Workshop</p>
+        <p class="pub-abstract">A comparison of ML deployment solutions spanning manual training/deployment through automated continuous-integration workflows, with practical evaluation metrics and a look at how real-world requirements diverge from academic settings.</p>
+        <div class="pub-links">
+          <a href="https://nips.cc/virtual/2022/workshop/49982"><i class="fas fa-video"></i>Livestream</a>
+          <a href="imgs/Poster.png"><i class="fas fa-image"></i>Poster</a>
+          <a href="https://arxiv.org/abs/2212.02659"><i class="fas fa-scroll"></i>arXiv</a>
+          <a href="https://www.researchgate.net/publication/366086359_Continual_learning_on_deployment_pipelines_for_Machine_Learning_Systems"><i class="fas fa-file-alt"></i>ResearchGate</a>
+          <a href="https://sites.google.com/view/dmmlsys-neurips2022/home"><i class="fas fa-globe"></i>Workshop</a>
+        </div>
+      </div>
+    </div>
 
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="imgs/object_classification_with_help _from_backgrounds ICLR workshop.jpg" alt="Explainable AI background diagram"></div>
+      <div>
+        <h3 class="pub-title">Explainable AI: Object Recognition With Help From Background</h3>
+        <p class="pub-authors">Raza Hashmi, <strong>Qiang Li</strong></p>
+        <p class="pub-venue">ICLR 2022 · CSS Workshop</p>
+        <p class="pub-abstract">An exploration of how image backgrounds can help object recognition, building on the "noise or signal" baseline work by Xiao et al.</p>
+        <div class="pub-links">
+          <a href="https://sites.google.com/view/cssiclr2022/home"><i class="fas fa-globe"></i>Website</a>
+          <a href="https://blog.iclr.cc/2022/05/12/reflection-on-the-dei-initiative-at-iclr-2022/"><i class="fas fa-file-alt"></i>Blog</a>
+          <a href="https://iclr.cc/virtual/2022/workshop/9069"><i class="fas fa-video"></i>Presentation video</a>
+          <a href="https://www.kaggle.com/datasets/qianglijonas/imagenet11"><i class="fas fa-database"></i>Dataset (184+)</a>
+        </div>
+      </div>
+    </div>
 
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="imgs/AIQX.JPG" alt="BMW AIQX platform"></div>
+      <div>
+        <h3 class="pub-title">AI Quality Next — BMW Group Computer Vision Project</h3>
+        <p class="pub-authors">Computer Vision Engineer: <strong>Qiang Li</strong></p>
+        <p class="pub-venue">BMW Group · Industrial deployment</p>
+        <p class="pub-abstract">AIQX integrates machine learning and deep learning algorithms for visual inspection directly into BMW's production processes — a central standard for AI-based quality inspection across the global production system, enabling more robust defect detection and order verification.</p>
+        <div class="pub-links">
+          <a href="https://youtu.be/qgZy7Uqt7ok"><i class="fas fa-video"></i>Artificial Intelligence at BMW</a>
+          <a href="https://www.youtube.com/watch?v=Fo6pWIi-Ixo"><i class="fas fa-video"></i>AI in the Production Line</a>
+          <a href="https://www.bmwgroup.com/en/news/general/2023/BMWGroupIT.html?tl=soc-link-dabu-brnd-mn-iadn-post-gallerya-01.02.2023-bproadul-c98a00c06a58"><i class="fas fa-newspaper"></i>Media coverage · BMW Q-Award</a>
+          <a href="https://www.cnbc.com/2023/07/21/how-bmw-uses-ai-to-make-vehicle-assembly-more-efficient.html"><i class="fas fa-newspaper"></i>CNBC</a>
+        </div>
+      </div>
+    </div>
 
-		
-		<!-- INDIN 2023 -->
-		<tbody><tr>
-		<td width="30%" valign="middle"><p><img src="./imgs/linear%20projection-Page-2.drawio%20(1).png" width="280" alt="Indin" style="border-style: none" align="top"></p></td>
-		<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-			<strong>Self-supervised Learning with Temporary Exact Solutions: Linear Projection</strong><br>
-			Evrim Ozmermer, <strong>Qiang Li</strong> <br>
-			Accepted by <em>  IEEE 21st International Conference on Industrial Informatics (<strong>INDIN'23</strong>), Full paper, 2023</em>.<br>
-			In this paper, we present a self-supervised learning method for training, not limited to but especially visual transformers that are able to learn meaningful representations of images and videos without requiring large amounts of labeled data. Our method is based on using exact solutions of the representations that the model generates. It is shown that the model is able to learn useful features that can be later fine-tuned on industrial downstream tasks.<br>
-			<b> <a href="https://ieeexplore.ieee.org/abstract/document/10217918"> <font color="##808080">Paper</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b> <a href="https://github.com/rootvisionai/solo-learn"> <font color="##808080">Code</font></a></b>&nbsp;&nbsp;&nbsp;	
-			<b><a href="https://2023.ieee-indin.org/keynotes.php"><font color="#808080">Conference Website</font></a></b>&nbsp;&nbsp;&nbsp;
-			</p></td></tr>
-		</tbody>
-		
-		
-		
-		
-		
-		<!--NPHH ICASSP2023 -->
-		<tbody><tr>
-		<td width="30%" valign="middle"><p><img src="./files/FE11E312-9E98-4137-9033-58A7F9356150.jpeg" width="280" alt="HPHH" style="border-style: none" align="top"></p></td>
-		<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-			<strong>Exploiting Interactivity and Heterogeneity for Sleep Stage Classification via Heterogeneous Graph Neural Network</strong><br>
-			Ziyu Jia, Youfang Lin, Yuhan Zhou, Xiyang Cai, Peng Zheng, <strong>Qiang Li</strong>, Jing Wang<br>
-			Accepted by <em>  2023 IEEE International Conference on Acoustics, Speech, and Signal Processing (<strong>ICASSP</strong>),Full paper, 2023</em>.<br>
-			In this paper, we propose a novel deep model SleepHGNN for sleep stage classification. The Heterogeneous Graph Transformer is applied to capture the interactivity and heterogeneity of the multimodal signals. To the best of our knowledge, this is the first attempt to leverage heterogeneous graph neural networks for sleep stage classification. Since the SleepHGNN is a universal framework for the graph-level classification task based on the heterogeneous graph, we will generalize model to other domains like protein classification and molecular graph classification including anticancer chemical compound classification in the future.<br>
-			<b> <a href="https://ieeexplore.ieee.org/document/10095397"> <font color="##808080">Paper</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b> <a href="https://github.com/zhouyh310/SleepHGNN"> <font color="##808080">Code</font></a></b>&nbsp;&nbsp;&nbsp;	
-			<b><a href="https://2023.ieeeicassp.org/"><font color="#808080">Conference Website</font></a></b>&nbsp;&nbsp;&nbsp;
-			</p></td></tr>
-		</tbody>
-		
-		
-		<!--CI/CD Deployment NIPS2022 -->
-		<tbody><tr>
-		<td width="30%" valign="middle"><p><img src="./imgs/deployment pipeline on NIPS2022.jpg" width="280" alt="CI/CD pipeline" style="border-style: none" align="top"></p></td>
-		<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-			<strong>Continual learning on deployment pipelines for Machine Learning Systems</strong><br>
-			<strong>Qiang Li</strong>, Chongyu Zhang<br>
-			Accepted by <em> The Conference on Neural Information Processing Systems (<strong>NeurIPS</strong>), DMML Workshop, 2022</em>.<br>
-			In this work, we presented a comparison of various solutions for the deployment of machine learning systems, includes different layers of automation from highly manual model training and deployment to an automated continuous integration workflow. We proposed the evaluation metrics in practice and described how real-world requirements differ from more academic settings.
-                        <b><a href="https://nips.cc/virtual/2022/workshop/49982"><font color="##808080">Livestream on NeurIPS2022</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="imgs/Poster.png"><font color="#FF0000">Poster</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://arxiv.org/abs/2212.02659"><font color="##808080">Paper on arxiv</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://www.researchgate.net/publication/366086359_Continual_learning_on_deployment_pipelines_for_Machine_Learning_Systems"><font color="##808080">ResearchGate</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://sites.google.com/view/dmmlsys-neurips2022/home"><font color="#808080">Workshop Website</font></a></b>&nbsp;&nbsp;&nbsp;
-			</p></td></tr>
-		</tbody>
-		
-		
-		
-		
-		<!--Background Image-11-->
-		<tbody><tr>
-		<td width="30%" valign="middle"><p><img src="./imgs/object_classification_with_help _from_backgrounds ICLR workshop.jpg" width="280" alt="ExplainAI" style="border-style: none" align="top"></p></td>
-		<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-			<strong>Explainable AI: Object Recognition With Help From Background</strong><br>
-			Raza Hashmi, <strong>Qiang Li</strong><br>
-			Accepted by <em> The International Conference on Learning Representations (<strong>ICLR</strong>), CSS Workshop, 2022</em>.<br>
-			This work explores how backgrounds might help in object recognition tasks in depth. Our project is fascinated by the baseline work done by Xiao et al. in their noise or signal paper.
-                        <b><a href="https://sites.google.com/view/cssiclr2022/home"><font color="#808080">Website</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://blog.iclr.cc/2022/05/12/reflection-on-the-dei-initiative-at-iclr-2022/"><font color="#808080">Blogs</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://iclr.cc/virtual/2022/workshop/9069"><font color="#FF0000">Camera ready video of presentation on ICLR2022</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://www.kaggle.com/datasets/qianglijonas/imagenet11"><font color="##808080">Dataset on Kaggle (184+ Download!)</font></a></b>&nbsp;&nbsp;&nbsp;
-			</p></td></tr>
-		</tbody>
-		
-		
-		
-		<!--AIQX-->
-		<tbody><tr>
-		<td width="30%" valign="middle"><p><img src="./imgs/AIQX.JPG" width="280" alt="AttentionNet" style="border-style: none" align="top"></p></td>
-		<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-			<strong>AI Quality Next - BMW Group - Computer Vision project</strong><br>
-						<strong>Computer Vision Engineer: Qiang Li</strong><br>
-					AIQX provides a platform to integrate machine learning & deep learning algorithms for visual inspections directly into the production processes. Creation of a central standard for the implementation of AI for quality inspections in the global production system. AI provides far more robust algorithms and opens new areas of defect detection and order verification for manufacturing.<br>
-			<b><a href="https://youtu.be/qgZy7Uqt7ok"><font color="#808080">Youtube:Artificial Intelligence at the BMW Group</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://www.youtube.com/watch?v=Fo6pWIi-Ixo"><font color="#808080">Youtube:BMW Factory – Integration of A.I. in the Production Line</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://www.bmwgroup.com/en/news/general/2023/BMWGroupIT.html?tl=soc-link-dabu-brnd-mn-iadn-post-gallerya-01.02.2023-bproadul-c98a00c06a58"><font color="#FF0000">Published materials about our AIQX Project & Usecases in News and Major Media! Won BMW Q-Award*</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://www.cnbc.com/2023/07/21/how-bmw-uses-ai-to-make-vehicle-assembly-more-efficient.html"><font color="#FF0000"> Our AIQX Project & Usecases in CNBC News*</font></a></b>&nbsp;&nbsp;&nbsp;
-		</p></td></tr>
-		</tbody>
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="imgs/37highres.png" alt="AttentionNet cell annotation tool"></div>
+      <div>
+        <h3 class="pub-title">All You Need Is Cell Attention: A Cell Annotation Tool for Single-Cell Morphology Data</h3>
+        <p class="pub-authors"><strong>Qiang Li</strong>*, Corin Otesteanu, Lily Xu</p>
+        <p class="pub-venue">ICLR 2021 · Workshop on AI for Public Health</p>
+        <div class="pub-links">
+          <a href="https://aiforpublichealth.github.io/papers/ICLR-AI4PH_paper_37.pdf"><i class="fas fa-file-alt"></i>PDF</a>
+          <a href="https://github.com/Johnny-liqiang/CellNetUML"><i class="fas fa-code"></i>Code / Software</a>
+        </div>
+      </div>
+    </div>
 
-		
-		<!--AttentionNet-->
-		<tbody><tr>
-		<td width="30%" valign="middle"><p><img src="./imgs/37highres.png" width="280" alt="AttentionNet" style="border-style: none" align="top"></p></td>
-		<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-			<strong>All You Need Is Cell Attention: A Cell Annotation Tool for Single-Cell Morphology Data</strong><br>
-						<strong>Qiang Li</strong>*, Corin Otesteanu, Lily Xu<br>
-					Accepted by <em> The International Conference on Learning Representations (<strong>ICLR</strong>), Workshop on AI for Public Health, 2021</em>.<br>
-			<b><a href="https://aiforpublichealth.github.io/papers/ICLR-AI4PH_paper_37.pdf"><font color="#FF0000">PDF</font></a></b>&nbsp;&nbsp;&nbsp;
-			<b><a href="https://github.com/Johnny-liqiang/CellNetUML"><font color="##808080">Code/Software </font></a></b>&nbsp;&nbsp;&nbsp;
-			</p></td></tr>
-		</tbody>
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="imgs/cellnet software.svg" alt="CellNet software diagram"></div>
+      <div>
+        <h3 class="pub-title">Cell Morphology Based Diagnosis of Cancer using Convolutional Neural Networks: CellNet</h3>
+        <p class="pub-authors"><strong>Qiang Li</strong>, Yiran Xing, Tianwei Lan, ChenYu Tian, Ying Chen</p>
+        <p class="pub-venue">DeeCamp 2020 · Medical Track of AI in Public Healthcare — Challenge winner</p>
+        <div class="pub-links">
+          <a href="https://www.sinovationventures.com/ai"><i class="fas fa-globe"></i>Website</a>
+          <a href="https://github.com/Johnny-liqiang/CellNetUML"><i class="fas fa-code"></i>Code / Models</a>
+        </div>
+      </div>
+    </div>
 
-		<!--CellNet software-->
-		<tbody><tr>
-			<td width="30%" valign="middle"><p><img src="./imgs/cellnet software.svg" width="280" alt="CellNet" style="border-style: none" align="top"></p></td>
-			<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-				<strong>Cell Morphology Based Diagnosis of Cancer using Convolutional Neural Networks: CellNet</strong><br>
-					<strong>Qiang Li</strong>, Yiran Xing, Tianwei Lan, ChenYu Tian, Ying Chen<br>
-				Won Challenge on <em> Medical Track of AI in Public Healthcare of DeeCamp 2020</em>.<br>
-				<b><a href="https://www.sinovationventures.com/ai"><font color="#FF0000">Website</font></a></b>&nbsp;&nbsp;&nbsp;
-				<b><a href="https://github.com/Johnny-liqiang/CellNetUML"><font color="#FF0000">Code/Models</font></a></b>&nbsp;&nbsp;&nbsp;
-				
-			</p></td></tr>
-		</tbody>
-		
-		<!--CellNet thesis
-		<tbody><tr>
-			<td width="30%" valign="middle"><p><img src="./imgs/cellnet.png" width="280" alt="CellNet" style="border-style: none" align="top"></p></td>
-			<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-				<strong>Master thesis: Cell Morphology Based Diagnosis of Cancer using Convolutional Neural Networks: CellNet</strong><br>
-					<strong>Qiang Li</strong><br>
-				Masterand in <em> ETH Zürich Claassen Lab</em>.<br>
-				<b><a href="https://github.com/Johnny-liqiang/CellNetUML"><font color="#FF0000">Code/Models</font></a></b>&nbsp;&nbsp;&nbsp;
-				<a href="files/Qiang-Thesis.pdf"><font color="##808080">Slides</font></a>
-			</p></td></tr>
-		</tbody>
-                -->
-		
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="imgs/pca.svg" alt="PCA defect localization diagram"></div>
+      <div>
+        <h3 class="pub-title">Localization and Visualization of Defects by PCA, KMeans, Colorspace Template Matching for Additive Manufacturing</h3>
+        <p class="pub-authors">Hamid Jahangir, <strong>Qiang Li</strong></p>
+        <p class="pub-venue">ICAM 2020 · International Conference on Additive Manufacturing — Invited talk</p>
+        <div class="pub-links">
+          <a href="https://docs.google.com/presentation/d/1Rgljw6_YFpYjUHTBe-qzGymEXjoWSFKVIia3r-r5iO0/edit?usp=sharing"><i class="fas fa-desktop"></i>Slides</a>
+          <a href="files/An AI software i developed for Siemens.pdf"><i class="fas fa-file-alt"></i>Software</a>
+        </div>
+      </div>
+    </div>
 
-		<!--PCA-->
-		<tbody><tr>
-			<td width="30%" valign="middle"><p><img src="./imgs/pca.svg" width="280" alt="PCA" style="border-style: none" align="top"></p></td>
-			<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-				<strong>Localization and visualization of defects by PCA, KMeans, Colorspace Template Matching for Additive Manufacturing</strong><br>
-					 Hamid Jahangir, <strong>Qiang Li</strong><br>
-				 Invited Talk on <em>International Conference on Additive Manufacturing (<strong>ICAM</strong>), 2020</em>.<br>
-			<b><a href="https://docs.google.com/presentation/d/1Rgljw6_YFpYjUHTBe-qzGymEXjoWSFKVIia3r-r5iO0/edit?usp=sharing "><font color="##808080">Slides</font></a></b>&nbsp;&nbsp;&nbsp;
-			<a href="files/An AI software i developed for Siemens.pdf"><font color="##808080">Software</font></a>&nbsp;&nbsp;&nbsp;
-			</p></td></tr>
-		</tbody>
+    <div class="pub-card">
+      <div class="pub-thumb"><img src="imgs/4 E-mail Auto-Replier powered by GPT-2.png" alt="GPT-3 industry survey diagram"></div>
+      <div>
+        <h3 class="pub-title">GPT-3 Industry Survey and Applied Scenarios</h3>
+        <p class="pub-authors">Qiyi Ye, <strong>Qiang Li</strong></p>
+        <p class="pub-venue">Sinovation Ventures AI Institute (创新工场), 2020</p>
+        <p class="pub-abstract">Designed three GPT-based generative models for real-world business scenarios.</p>
+        <div class="pub-links">
+          <a href="https://github.com/Johnny-liqiang/AI-Research-Intern-In-Sinovation-Venture"><i class="fas fa-code"></i>Code / models</a>
+          <a href="files/Technical report on GPT-3 and its applied Business Scenario.pdf"><i class="fas fa-desktop"></i>Slides</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-		
+  <!-- ============ NOTES / MISC ============ -->
+  <section class="block reveal" id="notes">
+    <div class="section-head"><p class="eyebrow">00:07 / Notes</p><h2>Notes</h2></div>
+    <p class="notes-text"><em>Hobbies:</em> vlogger who loves museums and cooking — find me on TikTok / Red (小红书) / WeChat Channel as "Jonas的新鲜感" (Jonas' curiosity). The channel has received millions of views and likes 👍, and thousands of followers, across 100+ vlogs. Keeping learning — let's move on together!</p>
+    <p class="notes-text">I'm also a fan of hackathons — they've given me valuable experience and sharpened my critical thinking, problem-solving, and leadership skills.</p>
+  </section>
 
-		
-		<!--GPT-3 industry survey and its applied project-->
-		<tbody><tr>
-			<td width="30%" valign="middle"><p><img src="./imgs/4 E-mail Auto-Replier powered by GPT-2.png" width="280" alt="CFUN" style="border-style: none" align="top"></p></td>
-			<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;">
-				<strong>GPT-3 industry survey and applied scenarios</strong><br>
-				Qiyi Ye, <strong>Qiang Li</strong><br>
-				Designed 3 GPT-based generative model on real scenario at <em> Sinovation Ventures AI Institute （创新工场）, 2020</em>.<br>
-			<b><a href="https://github.com/Johnny-liqiang/AI-Research-Intern-In-Sinovation-Venture"><font color="#FF0000">Code/GPT generative models</font></a></b>&nbsp;&nbsp;&nbsp;
-			<a href="files/Technical report on GPT-3 and its applied Business Scenario.pdf"><font color="##808080">Slides</font></a>
-			</p></td></tr>
-		</tbody>
-	</table>
+  <footer>
+    <span class="mono">Qiang Li · Last updated 07.2026</span>
+    
+  </footer>
 
+  <script async src="https://busuanzi.ibruce.info/busuanzi/js/busuanzi.pure.mini.js"></script>
+  <script>
+    // scroll-reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    if('IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); }
+        });
+      }, {threshold:.12, rootMargin:'0px 0px -60px 0px'});
+      revealEls.forEach(el=>io.observe(el));
+    } else {
+      revealEls.forEach(el=>el.classList.add('in-view'));
+    }
 
-	<p><b><font face="Times New Roman" size="5"><br>
-		Miscellaneous</font></b></p>
-		<table border="0" style="border-width: 0px">
-			<tbody>
-				<tr>
-					
-					<td width="70%" valign="middle"><p style="margin-top: 3px; margin-bottom: 3px; line-height: 1.25;"><font face="Arial" style="font-size: 12pt;"> <em> Hobbies: Vloger who loves Museum, Cooking... You can find me in TikTok / Red(小红书)/ Wechat Channel by ‘Jonas的新鲜感’（Jonas' curiosity), We have received millions of views and likes 👍, and thousands of followers! Have created 100+ Vlogs. Keeping Learning! Let's move on together!<br>
-						I am a fan of Hackathons. It gave me valuable experiences and developed critical thinking, problem-solving, and leadership skills.<br> </em>
-						<br>
-					</font></p><font face="Arial" style="font-size: 11pt;"></font>
-					</td>
-				</tr>
-			</tbody>
-		</table><br><br>
-	
-	
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-	<span id="busuanzi_value_page_pv" style="color:#000"> <i class="fa fa-spinner fa-spin"></i></span>
-	<br><br><br>
-
-	<hr>
-	<font style="font-size:10">Qiang Li<i> Last updated: 07.2026</i></font>
+    // nav active-state
+    const navLinks = document.querySelectorAll('nav.timecodes a');
+    const sections = Array.from(navLinks).map(a=>document.getElementById(a.dataset.target)).filter(Boolean);
+    if('IntersectionObserver' in window && sections.length){
+      const navIo = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          const link = document.querySelector(`nav.timecodes a[data-target="${entry.target.id}"]`);
+          if(!link) return;
+          if(entry.isIntersecting){
+            navLinks.forEach(l=>l.classList.remove('active'));
+            link.classList.add('active');
+          }
+        });
+      }, {rootMargin:'-45% 0px -50% 0px'});
+      sections.forEach(s=>navIo.observe(s));
+    }
+  </script>
 
 </body>
+</html>
