@@ -195,18 +195,19 @@
   /* ---------- news timeline ---------- */
   .timeline{list-style:none; margin:0; padding:0; position:relative;}
   .timeline::before{
-    content:""; position:absolute; left:82px; top:6px; bottom:6px; width:1px; background:var(--line);
+    content:""; position:absolute; left:98px; top:6px; bottom:6px; width:1px; background:var(--line);
   }
   .timeline li{
-    position:relative; display:grid; grid-template-columns:82px 1fr; gap:24px;
+    position:relative; display:grid; grid-template-columns:76px 1fr; gap:54px;
     padding:16px 0; align-items:start;
   }
   .timeline li::after{
-    content:""; position:absolute; left:78px; top:22px; width:9px; height:9px;
+    content:""; position:absolute; left:94px; top:22px; width:9px; height:9px;
     border-radius:50%; background:var(--paper); border:2px solid var(--teal);
   }
   .timeline .date{
-    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-soft); padding-top:3px; text-align:right;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-soft); padding-top:3px;
+    text-align:right; white-space:nowrap;
   }
   .timeline .entry{font-size:15px; color:var(--ink-soft);}
   .timeline .entry a{color:var(--teal-deep); text-decoration:none; border-bottom:1px solid var(--teal-soft);}
@@ -266,9 +267,9 @@
   .pub-card:last-child{border-bottom:none; padding-bottom:0;}
   .pub-thumb{
     border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--white);
-    aspect-ratio:4/3;
+    aspect-ratio:4/3; display:flex; align-items:center; justify-content:center; padding:10px;
   }
-  .pub-thumb img{width:100%; height:100%; object-fit:cover; transition:transform .35s ease;}
+  .pub-thumb img{width:100%; height:100%; object-fit:contain; transition:transform .35s ease;}
   .pub-card:hover .pub-thumb img{transform:scale(1.045);}
   .pub-title{font-family:'Fraunces',serif; font-weight:600; font-size:18px; margin:0 0 6px; line-height:1.3;}
   .pub-authors{font-size:13.5px; color:var(--ink-soft); margin:0 0 6px;}
@@ -303,9 +304,9 @@
     .mentor-grid{grid-template-columns:1fr;}
     .pub-card{grid-template-columns:1fr;}
     .pub-thumb{aspect-ratio:16/9;}
-    .timeline::before{left:64px;}
-    .timeline li{grid-template-columns:64px 1fr; gap:16px;}
-    .timeline li::after{left:60px;}
+    .timeline::before{left:82px;}
+    .timeline li{grid-template-columns:56px 1fr; gap:34px;}
+    .timeline li::after{left:78px;}
     .honors-list li{grid-template-columns:56px 1fr;}
   }
 
@@ -473,7 +474,7 @@
 
   <!-- ============ REVIEWING ============ -->
   <section class="block reveal" id="reviewing">
-    <div class="section-head"><p class="eyebrow">00:04 / Reviewing</p><h2>Conference &amp; Journal Reviewing</h2></div>
+    <div class="section-head"><p class="eyebrow">00:04 / Reviewing</p><h2>Conference & Journal Reviewer</h2></div>
 
     <p class="subhead">Conferences</p>
     <div class="venue-row">
@@ -514,7 +515,7 @@
 
   <!-- ============ HONORS ============ -->
   <section class="block reveal" id="honors">
-    <div class="section-head"><p class="eyebrow">00:05 / Honors</p><h2>Honors &amp; Awards</h2></div>
+    <div class="section-head"><p class="eyebrow">00:05 / Honors</p><h2>Honors & Awards</h2></div>
     <ul class="honors-list">
       <li><span class="yr mono">2026</span><span>The Certified Reinvention with Agentic AI Learning Program by Accenture and Stanford HAI.</span></li>
       <li><span class="yr mono">2025</span><span>The Certified AI-Empowered SAFe® 6 Product Owner / Product Manager — scored 98/100%.</span></li>
@@ -530,7 +531,7 @@
 
   <!-- ============ PUBLICATIONS ============ -->
   <section class="block reveal" id="publications">
-    <div class="section-head"><p class="eyebrow">00:06 / Publications</p><h2>Projects &amp; Publications</h2></div>
+    <div class="section-head"><p class="eyebrow">00:06 / Publications</p><h2>Projects & Publications</h2></div>
 
     <div class="pub-card">
       <div class="pub-thumb"><img src="files/Architect_Video_clips.png" alt="ACL 2026 CustomNLP poster paper diagram"></div>
